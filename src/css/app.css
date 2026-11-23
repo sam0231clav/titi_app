@@ -145,8 +145,8 @@ textarea.entrada { min-height: 92px; resize: vertical; }
 
 /* ---------- Acceso ---------- */
 .acceso { padding: calc(28px + var(--sat)) 22px 28px; }
-.acceso .logo { display: block; width: 150px; height: auto; margin: 0 auto 14px; mix-blend-mode: multiply; }
-.acceso .logo.chico { width: 110px; height: auto; }
+.acceso .logo { display: block; width: 100px; height: auto; margin: 0 auto 14px; mix-blend-mode: multiply; }
+.acceso .logo.chico { width: 76px; height: auto; }
 .acceso h1 { text-align: center; font-size: 22px; }
 .acceso h1.marca { font-size: 34px; letter-spacing: 0.5px; color: var(--green-dk); }
 .acceso .lema { text-align: center; color: var(--mut); margin: 4px 0 22px; }
@@ -379,5 +379,5 @@ textarea.entrada { min-height: 92px; resize: vertical; }
 .usuario.con-acciones { flex-wrap: wrap; }
 .usuario .acciones { width: 100%; display: flex; gap: 8px; padding-left: 52px; flex-wrap: wrap; }
 .splash { min-height: 100dvh; display: grid; place-content: center; justify-items: center; gap: 16px; }
-.splash img { width: 150px; height: auto; mix-blend-mode: multiply; }
+.splash img { width: 100px; height: auto; mix-blend-mode: multiply; }
 .usuario .acciones .btn { width: auto; }
