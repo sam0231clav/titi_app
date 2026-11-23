@@ -163,6 +163,12 @@ class LocalStore {
   async guardarToken() {}
   async quitarToken() {}
   async restablecerClave(uid, clave) { this.db.claves[uid] = clave; this.guardar(); }
+  async eliminarUsuario(uid) {
+    this.db.usuarios = this.db.usuarios.filter((x) => x.id !== uid);
+    delete this.db.claves[uid];
+    this.guardar(); this.emitir("usuarios");
+    return { completo: true };
+  }
   reiniciar() { this.db = datosDemo(); this.guardar(); ssDel(this.sesion); }
 }
 
@@ -263,6 +269,18 @@ class FirebaseStore {
   async restablecerClave(uid, clave) {
     const f = httpsCallable(getFunctions(this.app, CONFIG.regionFunciones), "restablecerClave");
     await f({ uid, clave });
+  }
+  // Borra la cuenta completa (acceso + perfil) con la función; si las funciones no están publicadas,
+  // borra al menos el perfil: la persona pierde el acceso y ya no aparece en la lista.
+  async eliminarUsuario(uid) {
+    try {
+      await httpsCallable(getFunctions(this.app, CONFIG.regionFunciones), "eliminarUsuario")({ uid });
+      return { completo: true };
+    } catch (e) {
+      if (e?.code === "functions/permission-denied" || e?.code === "functions/failed-precondition") throw e;
+      await deleteDoc(doc(this.db, "usuarios", uid));
+      return { completo: false };
+    }
   }
 }
 

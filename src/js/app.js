@@ -636,7 +636,8 @@ async function vistaAdminUsuarios() {
     $("#cuenta").textContent = `${l.length} ${l.length === 1 ? "usuario" : "usuarios"}`;
     $("#lista").innerHTML = l.length
       ? l.map((u) => filaUsuario(u, "", `<button class="btn btn-chico ${u.estado === "activo" ? "btn-borde" : "btn-primario"}" data-alternar="${esc(u.id)}">${u.estado === "activo" ? "Pasar a pendiente" : "Aprobar"}</button>
-          <button class="btn btn-chico btn-borde" data-nueva-clave="${esc(u.id)}">${ICONOS.llave} Nueva clave</button>`)).join("")
+          <button class="btn btn-chico btn-borde" data-nueva-clave="${esc(u.id)}">${ICONOS.llave} Nueva clave</button>
+          <button class="btn btn-chico btn-borde" style="color:var(--coral)" data-eliminar="${esc(u.id)}">${ICONOS.basura} Eliminar</button>`)).join("")
       : `<p class="vacio"><span class="mono">🐒</span>No hay usuarios con esos filtros.</p>`;
   };
   return {
@@ -663,7 +664,9 @@ async function vistaAdminUsuarios() {
           return void cambiarEstado(u.id, u.estado === "activo" ? "pendiente" : "activo", a);
         }
         const k = e.target.closest("[data-nueva-clave]");
-        if (k) formNuevaClave(us.find((x) => x.id === k.dataset.nuevaClave));
+        if (k) return void formNuevaClave(us.find((x) => x.id === k.dataset.nuevaClave));
+        const d = e.target.closest("[data-eliminar]");
+        if (d) eliminarUsuario(us.find((x) => x.id === d.dataset.eliminar), d);
       });
       $("#csv").addEventListener("click", () => {
         const celda = (v) => `"${String(v ?? "").replace(/"/g, '""')}"`;
@@ -677,6 +680,22 @@ async function vistaAdminUsuarios() {
       });
     },
   };
+}
+
+async function eliminarUsuario(u, boton) {
+  if (!u || u.rol === "admin" || u.id === usuario?.id) return;
+  const ok = await confirmar(`¿Eliminar a ${u.nombre}? Perderá el acceso y no podrá ver la información. Esta acción no se puede deshacer.`, "Eliminar", true);
+  if (!ok) return;
+  boton.disabled = true;
+  try {
+    const r = await store.eliminarUsuario(u.id);
+    datos.usuarios = datos.usuarios.filter((x) => x.id !== u.id);
+    aviso(r.completo ? "Usuario eliminado" : "Usuario eliminado (publica las funciones para borrar también su acceso)");
+    enrutar(true);
+  } catch (er) {
+    console.error(er); boton.disabled = false;
+    aviso("No se pudo eliminar al usuario", "error");
+  }
 }
 
 function formNuevaClave(u) {

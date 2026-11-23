@@ -1,6 +1,7 @@
 // Cloud Functions de Titi.
 //  - Al crearse una alerta o un cupón → notificación push a los teléfonos (app cerrada o abierta).
 //  - Al registrarse alguien → aviso a los administradores. Al aprobarlo → aviso a esa persona.
+//  - eliminarUsuario → el administrador borra la cuenta (acceso y perfil) de un residente.
 //  - restablecerClave → el administrador asigna una clave temporal a un residente.
 const { setGlobalOptions } = require("firebase-functions/v2");
 const { onDocumentCreated, onDocumentUpdated } = require("firebase-functions/v2/firestore");
@@ -75,6 +76,21 @@ exports.alAprobar = onDocumentUpdated("usuarios/{uid}", async (event) => {
 });
 
 // Solo un administrador puede asignar una clave temporal a otra persona.
+exports.eliminarUsuario = onCall(async (request) => {
+  if (!request.auth) throw new HttpsError("unauthenticated", "Debes iniciar sesión.");
+  const yo = await db.collection("usuarios").doc(request.auth.uid).get();
+  if (!yo.exists || yo.data().rol !== "admin") throw new HttpsError("permission-denied", "Solo un administrador puede hacer esto.");
+  const { uid } = request.data || {};
+  if (typeof uid !== "string" || !uid) throw new HttpsError("invalid-argument", "Falta la persona.");
+  if (uid === request.auth.uid) throw new HttpsError("failed-precondition", "No puedes eliminar tu propia cuenta.");
+  const destino = await db.collection("usuarios").doc(uid).get();
+  if (destino.exists && destino.data().rol === "admin") throw new HttpsError("failed-precondition", "No se puede eliminar a un administrador.");
+  await db.collection("usuarios").doc(uid).delete();
+  try { await getAuth().deleteUser(uid); } catch (e) { if (e.code !== "auth/user-not-found") throw e; }
+  logger.info("Usuario eliminado", { por: request.auth.uid, para: uid });
+  return { ok: true };
+});
+
 exports.restablecerClave = onCall(async (request) => {
   if (!request.auth) throw new HttpsError("unauthenticated", "Debes iniciar sesión.");
   const yo = await db.collection("usuarios").doc(request.auth.uid).get();
