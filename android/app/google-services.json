@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "564678939152",
+    "project_id": "practicas-1d997",
+    "storage_bucket": "practicas-1d997.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:564678939152:android:ead6f91df7fca36d95f095",
+        "android_client_info": {
+          "package_name": "co.rosablanca.titi"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCvQbAe1VG1zz6nZBLsPJ3iJAYFK83yM44"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
