@@ -39,7 +39,7 @@ function mensajeError(e) {
 }
 
 function pantallaError(msg, alReintentar) {
-  raiz.innerHTML = `<div class="acceso"><img class="logo chico" src="assets/titi.svg" alt="Titi" /><h1>No pudimos conectarnos</h1>
+  raiz.innerHTML = `<div class="acceso"><img class="logo chico" src="assets/logo.png" alt="Titi" /><h1>No pudimos conectarnos</h1>
     <p class="lema">${esc(msg)}</p><button class="btn btn-primario" id="reintentar">Reintentar</button></div>`;
   $("#reintentar").onclick = alReintentar;
 }
@@ -238,7 +238,7 @@ const contarPendientes = () => datos.usuarios.filter((u) => u.rol !== "admin" &&
 const navAdmin = (activa) => navegacion(activa, itemsAdmin(contarPendientes()));
 const cabecera = (titulo, sub = "", { corta = false, accion = "" } = {}) => `
   <header class="cabecera ${corta ? "corta" : ""}">
-    <img src="assets/titi.svg" alt="Titi" />
+    <img src="assets/icon-192.png" alt="Titi" />
     <div><h1>${titulo}</h1>${sub ? `<div class="sub">${sub}</div>` : ""}</div>
     <div class="espacio"></div>${accion}
   </header>`;
@@ -293,7 +293,7 @@ function vistaLogin() {
   const demo = store.modo === "demo";
   return {
     cuerpo: `<main class="acceso">
-      <img class="logo" src="assets/titi.svg" alt="Titi" />
+      <img class="logo" src="assets/logo.png" alt="Titi" />
       <h1 class="marca">Titi</h1>
       <p class="lema">Tu comunidad, informada<br /><small>Agrupación Social Hacienda Rosablanca</small></p>
       <form id="f-login" novalidate>
@@ -338,7 +338,7 @@ function vistaLogin() {
 function vistaRegistro() {
   return {
     cuerpo: `<main class="acceso">
-      <img class="logo chico" src="assets/titi.svg" alt="Titi" />
+      <img class="logo chico" src="assets/logo.png" alt="Titi" />
       <h1>Crea tu cuenta</h1>
       <p class="lema">Un administrador la aprobará para que veas la información de tu comunidad</p>
       <form id="f-reg" novalidate>
@@ -407,7 +407,7 @@ function vistaPendiente() {
   const u = usuario;
   return {
     cuerpo: `<main class="acceso pendiente">
-      <img class="logo chico" src="assets/titi.svg" alt="Titi" />
+      <img class="logo chico" src="assets/logo.png" alt="Titi" />
       <div class="reloj" aria-hidden="true">⏳</div>
       <h1>¡Ya casi, ${esc(primerNombre(u.nombre))}!</h1>
       <p class="lema" style="margin-bottom:14px">Tu cuenta está <b>pendiente de aprobación</b>.<br />
