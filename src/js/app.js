@@ -54,7 +54,13 @@ async function arrancar() {
     console.error(e);
     return pantallaError("Revisa tu conexión a internet y la configuración de Firebase.", arrancar);
   }
-  if ("serviceWorker" in navigator && !esNativa()) navigator.serviceWorker.register("./sw.js").catch(() => {});
+  if ("serviceWorker" in navigator && !esNativa()) {
+    const habia = Boolean(navigator.serviceWorker.controller);
+    let recargado = false;
+    // Cuando hay una versión nueva, se recarga una vez para no quedarse con la anterior.
+    navigator.serviceWorker.addEventListener("controllerchange", () => { if (habia && !recargado) { recargado = true; location.reload(); } });
+    navigator.serviceWorker.register("./sw.js").catch(() => {});
+  }
   window.addEventListener("hashchange", () => enrutar());
   enrutar();
 }

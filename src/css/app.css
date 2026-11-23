@@ -381,3 +381,8 @@ textarea.entrada { min-height: 92px; resize: vertical; }
 .splash { min-height: 100dvh; display: grid; place-content: center; justify-items: center; gap: 16px; }
 .splash img { width: 100px; height: auto; mix-blend-mode: multiply; }
 .usuario .acciones .btn { width: auto; }
+
+/* Modo oscuro: el logo es de fondo blanco, así que va sobre una tarjeta clara */
+@media (prefers-color-scheme: dark) {
+  .acceso .logo, .splash img { mix-blend-mode: normal; background: #fff; border-radius: 18px; padding: 10px; box-sizing: content-box; }
+}
