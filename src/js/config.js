@@ -8,15 +8,16 @@
 // ============================================================
 export const CONFIG = {
   firebase: {
-    apiKey: "",
-    authDomain: "practicas-1d997.firebaseapp.com",
-    projectId: "practicas-1d997",
-    storageBucket: "",
-    messagingSenderId: "",
-    appId: "",
+    apiKey: "AIzaSyBB48q_g_5uOlyUrN_p9wmT0BG6XNdGmbU",
+  authDomain: "practicas-1d997.firebaseapp.com",
+  projectId: "practicas-1d997",
+  storageBucket: "practicas-1d997.firebasestorage.app",
+  messagingSenderId: "564678939152",
+  appId: "1:564678939152:web:d87a237d715c964d95f095",
+  measurementId: "G-XV96PJBF7D"
   },
 
-  vapidKey: "",
+  vapidKey: "BCLonCRiuBTilM2or71ffhNTfxCxqxyF17qqoN8YAH5itIKr-EB7haAKvtjuJdQXeIJPBavJaJKoChtdDRHQoY8",
 
   // Región donde están publicadas las Cloud Functions (debe coincidir con functions/index.js).
   regionFunciones: "us-central1",
