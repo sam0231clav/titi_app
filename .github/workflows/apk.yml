@@ -1,0 +1,54 @@
+name: Construir APK de Titi
+
+# Se ejecuta solo cada vez que subes cambios, o a mano desde la pestaña "Actions" → "Construir APK de Titi" → "Run workflow".
+on:
+  workflow_dispatch:
+  push:
+    branches: [main, master]
+
+jobs:
+  apk:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Compilar la app web
+        run: npm run build
+
+      # Opcional: si guardaste google-services.json como secreto del repositorio (GOOGLE_SERVICES_JSON), se usa aquí.
+      # Si ya lo subiste dentro de android/app/, no hace falta.
+      - name: Usar google-services.json del secreto (si existe)
+        env:
+          GS: ${{ secrets.GOOGLE_SERVICES_JSON }}
+        run: |
+          if [ -n "$GS" ]; then echo "$GS" > android/app/google-services.json; fi
+          if [ ! -s android/app/google-services.json ]; then echo "::warning::No hay google-services.json: el APK se construye, pero SIN notificaciones push."; fi
+
+      - name: Copiar la app al proyecto Android
+        run: npx cap sync android
+
+      - name: Construir el APK
+        working-directory: android
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleDebug --no-daemon
+
+      - name: Guardar el APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: Titi-APK
+          path: android/app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error

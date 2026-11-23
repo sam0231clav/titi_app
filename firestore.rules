@@ -1,0 +1,52 @@
+rules_version = '2';
+// Reglas de seguridad de Titi.
+//  - Hay que iniciar sesión (Firebase Auth) para leer o escribir cualquier cosa.
+//  - Una persona nueva solo puede crear SU perfil, siempre como "usuario" y "pendiente".
+//  - Mientras esté pendiente, solo puede leer su propio perfil: NO ve alertas ni cupones.
+//  - Solo un administrador aprueba usuarios, y crea, edita o borra alertas y cupones.
+//  - El primer administrador se marca a mano en la consola (rol = "admin"): nadie puede darse ese rol desde la app.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function autenticado() { return request.auth != null; }
+    function tienePerfil() { return autenticado() && exists(/databases/$(database)/documents/usuarios/$(request.auth.uid)); }
+    function perfil() { return get(/databases/$(database)/documents/usuarios/$(request.auth.uid)).data; }
+    function esAdmin() { return tienePerfil() && perfil().rol == 'admin'; }
+    function esActivo() { return tienePerfil() && perfil().estado == 'activo'; }
+
+    match /usuarios/{uid} {
+      allow get: if autenticado() && (request.auth.uid == uid || esAdmin());
+      allow list: if esAdmin();
+
+      allow create: if autenticado() && request.auth.uid == uid
+        && request.resource.data.keys().hasOnly(['nombre', 'conjunto', 'torre', 'apartamento', 'telefono', 'rol', 'estado', 'fechaRegistro', 'alertasVistasHasta', 'tokens'])
+        && request.resource.data.rol == 'usuario'
+        && request.resource.data.estado == 'pendiente'
+        && request.resource.data.tokens == []
+        && request.resource.data.nombre is string && request.resource.data.nombre.size() >= 3 && request.resource.data.nombre.size() <= 60
+        && request.resource.data.conjunto is string && request.resource.data.conjunto.size() <= 40
+        && request.resource.data.torre is string && request.resource.data.torre.size() <= 8
+        && request.resource.data.apartamento is string && request.resource.data.apartamento.size() <= 8
+        && request.resource.data.telefono.matches('^3[0-9]{9}$')
+        && request.auth.token.email == request.resource.data.telefono + '@usuarios.titi.app';
+
+      // Cada persona solo puede actualizar sus propios "tokens" de notificación y la marca de alertas vistas.
+      allow update: if esAdmin()
+        || (autenticado() && request.auth.uid == uid
+            && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['tokens', 'alertasVistasHasta'])
+            && request.resource.data.tokens.size() <= 12);
+
+      allow delete: if false;
+    }
+
+    match /alertas/{id} {
+      allow read: if esAdmin() || esActivo();
+      allow create, update, delete: if esAdmin();
+    }
+
+    match /cupones/{id} {
+      allow read: if esAdmin() || esActivo();
+      allow create, update, delete: if esAdmin();
+    }
+  }
+}

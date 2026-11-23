@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Titi</string>
+    <string name="title_activity_main">Titi</string>
+    <string name="package_name">co.rosablanca.titi</string>
+    <string name="custom_url_scheme">co.rosablanca.titi</string>
+</resources>
