@@ -36,7 +36,8 @@ service cloud.firestore {
             && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['tokens', 'alertasVistasHasta'])
             && request.resource.data.tokens.size() <= 12);
 
-      allow delete: if false;
+      // Solo un administrador elimina usuarios, y nunca a otro administrador ni a sí mismo.
+      allow delete: if esAdmin() && request.auth.uid != uid && resource.data.rol != 'admin';
     }
 
     match /alertas/{id} {
