@@ -598,7 +598,7 @@ async function vistaAdminResumen() {
       ${pendientes.length ? `<section class="tarjeta"><div class="fila"><h2 style="margin:0">Pendientes de aprobación</h2><a class="peque" style="color:var(--green);font-weight:700" href="#/admin/usuarios">Ver todos</a></div>
         ${pendientes.slice(0, 5).map((u) => filaUsuario(u, `<button class="btn btn-chico btn-primario" style="width:auto" data-aprobar="${esc(u.id)}">Aprobar</button>`)).join("")}</section>` : ""}
       <section class="tarjeta"><h2>Alcance de la aplicación</h2>
-        <div class="fila"><b style="font-size:26px">${pct}%</b><span class="mut peque">${act} de ${total.toLocaleString("es-CO")} hogares<br />de la caracterización</span></div>
+        <div class="fila"><b style="font-size:26px">${pct}%</b><span class="mut peque">${act} de ${total.toLocaleString("es-CO")} apartamentos<br />de los 18 conjuntos</span></div>
         <div class="progreso"><i style="width:${Math.min(100, Math.max(2, (act / total) * 100))}%"></i></div>
         <p class="peque mut">${datos.alertas.length} alertas publicadas · ${datos.cupones.filter(cuponVigente).length} cupones vigentes</p></section>
       <section class="tarjeta"><h2>Registrados por conjunto</h2>

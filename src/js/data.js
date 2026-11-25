@@ -1,19 +1,25 @@
 // Datos fijos y utilidades puras de la aplicación.
 
-// Los 12 conjuntos y los hogares encuestados en la caracterización de Hacienda Rosablanca.
+// Los 18 conjuntos de Hacienda Rosablanca y su número de apartamentos.
 export const CONJUNTOS = [
-  { nombre: "Alborada", hogares: 98 },
-  { nombre: "Alcaraván", hogares: 41 },
-  { nombre: "Arauco", hogares: 104 },
-  { nombre: "Canaguay", hogares: 42 },
-  { nombre: "Cimarrón", hogares: 81 },
-  { nombre: "Mapire", hogares: 136 },
-  { nombre: "Morichal", hogares: 80 },
-  { nombre: "Ocarro I", hogares: 75 },
-  { nombre: "Paso Llano", hogares: 125 },
-  { nombre: "Paso Llano 2", hogares: 58 },
-  { nombre: "Piedemonte", hogares: 118 },
-  { nombre: "Zainos", hogares: 121 },
+  { nombre: "Alborada", apartamentos: 440 },
+  { nombre: "Alcaraván", apartamentos: 396 },
+  { nombre: "Arauco", apartamentos: 570 },
+  { nombre: "Canaguay", apartamentos: 372 },
+  { nombre: "Centro comercial", apartamentos: 74 },
+  { nombre: "Cimarrón", apartamentos: 440 },
+  { nombre: "Mapire", apartamentos: 560 },
+  { nombre: "Morichal", apartamentos: 400 },
+  { nombre: "Ocarro", apartamentos: 492 },
+  { nombre: "Pasollano 1", apartamentos: 600 },
+  { nombre: "Pasollano 2", apartamentos: 680 },
+  { nombre: "Pasollano 3", apartamentos: 680 },
+  { nombre: "Pasollano 4", apartamentos: 480 },
+  { nombre: "Pasollano 5", apartamentos: 440 },
+  { nombre: "Piedemonte", apartamentos: 560 },
+  { nombre: "Prado Verde", apartamentos: 540 },
+  { nombre: "Tuparro", apartamentos: 360 },
+  { nombre: "Zainos", apartamentos: 600 },
 ];
 
 export const CATEGORIAS = {

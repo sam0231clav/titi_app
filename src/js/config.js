@@ -26,8 +26,8 @@ export const CONFIG = {
   // (ejemplo: "https://chat.whatsapp.com/XXXXXXXXXXXX"). Si se deja vacío, el botón se oculta.
   whatsappComunidad: "",
 
-  // Referencia para medir el alcance: hogares encuestados en la caracterización de Hacienda Rosablanca.
-  totalHogares: 1079,
+  // Referencia para medir el alcance: apartamentos de los 18 conjuntos de Hacienda Rosablanca.
+  totalHogares: 8684,
 };
 
 export const usaFirebase = Boolean(CONFIG.firebase.apiKey && CONFIG.firebase.projectId);

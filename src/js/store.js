@@ -56,7 +56,7 @@ function datosDemo() {
     u("Carlos Díaz", "Zainos", "2", "204", "3138889900", "activo", 12, "demo1234"),
     u("Ana Torres", "Arauco", "4", "401", "3141112233", "pendiente", 1, "demo1234"),
     u("Pedro Rojas", "Mapire", "1", "105", "3154445566", "activo", 9, "demo1234"),
-    u("Sofía Castro", "Paso Llano", "2", "303", "3167778899", "activo", 6, "demo1234"),
+    u("Sofía Castro", "Pasollano 2", "2", "303", "3167778899", "activo", 6, "demo1234"),
   ];
   const alertas = [
     { id: nuevoId(), titulo: "Corte de agua programado", descripcion: "Mañana de 8:00 a.m. a 12:00 m. habrá suspensión del servicio en todos los conjuntos por mantenimiento de la red.", categoria: "importante", conjunto: "todos", fecha: ahora - 0.2 * dia, creadoPor: "Administración" },
